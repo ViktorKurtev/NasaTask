@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Nasa.Services.Contracts;
 using Nasa.Web.Models;
 
 namespace Nasa.Web.Controllers
@@ -12,15 +13,21 @@ namespace Nasa.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly INasaService nasaService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, INasaService nasaService)
         {
             _logger = logger;
+            this.nasaService = nasaService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var asteroids = await nasaService.GetAsteroidDataAsync(1, 20);
+
+            return new JsonResult(asteroids);
+
+            //return View(asteroids);
         }
 
         public IActionResult Privacy()
