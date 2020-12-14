@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Nasa.Data.Models.Asteroid;
-using Nasa.Data.Models.CloseApproach;
-using Nasa.Data.Models.Excel;
-using System;
+using Nasa.Data.Models.Excel.Sheets;
+using Nasa.Data.Models.Excel.Tables;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Nasa.Services.AutomapperConfigs.ExcelConfigs
 {
@@ -12,7 +10,10 @@ namespace Nasa.Services.AutomapperConfigs.ExcelConfigs
     {
         public CloseApproachInfoSheetConfig()
         {
-            CreateMap<AsteroidData, CloseApproachInfoSheet>();
+            CreateMap<AsteroidData, CloseApproachInfoSubTable>();
+
+            CreateMap<IEnumerable<CloseApproachInfoSubTable>, CloseApproachInfoSpreadsheet>()
+                .ForMember(a => a.CloseApproachInfoSubTables, b => b.MapFrom(c => c));
         }
     }
 }

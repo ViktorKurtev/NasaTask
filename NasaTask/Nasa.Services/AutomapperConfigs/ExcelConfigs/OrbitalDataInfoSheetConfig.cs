@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Nasa.Data.Models.Asteroid;
 using Nasa.Data.Models.Excel;
+using Nasa.Data.Models.Excel.Sheets;
+using Nasa.Data.Models.Excel.Tables;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +13,10 @@ namespace Nasa.Services.AutomapperConfigs.ExcelConfigs
     {
         public OrbitalDataInfoSheetConfig()
         {
-            CreateMap<AsteroidData, OrbitalDataInfoSheet>();
+            CreateMap<AsteroidData, OrbitalDataInfoRow>();
+
+            CreateMap<IEnumerable<OrbitalDataInfoRow>, OrbitalDataInfoSpreadsheet>()
+                .ForMember(a => a.OrbitalDataInfoRows, b => b.MapFrom(c => c));
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace Nasa.Services.Extensions
+namespace Nasa.Data.Extensions
 {
     public static class WorkbookExtensions
     {

@@ -7,10 +7,12 @@ namespace Nasa.Data.JsonSerializers
 {
     public class UnwrappedObjectSerializer : JsonConverter
     {
+        private readonly bool shouldAppendParentName;
         private readonly Type[] types;
 
-        public UnwrappedObjectSerializer(params Type[] types)
+        public UnwrappedObjectSerializer(bool shouldAppendParentName, params Type[] types)
         {
+            this.shouldAppendParentName = shouldAppendParentName;
             this.types = types;
         }
 
@@ -82,11 +84,14 @@ namespace Nasa.Data.JsonSerializers
 
             var propVal = jProperty.Value;
 
-            var pathCollection = jProperty.Path.Split('.');
-
-            for (int i = nestingLevel - 1; i >= 0; i--)
+            if (shouldAppendParentName)
             {
-                propName = $"{pathCollection[i]}_{propName}";
+                var pathCollection = jProperty.Path.Split('.');
+
+                for (int i = nestingLevel - 1; i >= 0; i--)
+                {
+                    propName = $"{pathCollection[i]}_{propName}";
+                }
             }
 
             writer.WritePropertyName(propName);

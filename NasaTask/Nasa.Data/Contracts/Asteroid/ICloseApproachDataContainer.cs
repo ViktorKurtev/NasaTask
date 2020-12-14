@@ -1,7 +1,7 @@
 ﻿using Nasa.Data.Models.CloseApproach;
 using System.Collections.Generic;
 
-namespace Nasa.Data.Models.Contracts
+namespace Nasa.Data.Contracts.Asteroid
 {
     public interface ICloseApproachDataContainer
     {

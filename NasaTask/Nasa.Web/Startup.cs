@@ -28,6 +28,7 @@ namespace Nasa.Web
             services.AddHttpClient();
 
             services.AddScoped<INasaService, NasaService>();
+            services.AddScoped<IExcelConverter, ExcelConverter>();
 
             services.AddControllersWithViews();
         }

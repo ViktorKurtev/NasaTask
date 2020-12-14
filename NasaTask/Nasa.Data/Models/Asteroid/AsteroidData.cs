@@ -1,6 +1,6 @@
-﻿using Nasa.Data.Models.Asteroid.Abstract;
+﻿using Nasa.Data.Contracts.Asteroid;
+using Nasa.Data.Models.Asteroid.Abstract;
 using Nasa.Data.Models.CloseApproach;
-using Nasa.Data.Models.Contracts;
 using Nasa.Data.Models.Orbital;
 using Newtonsoft.Json;
 using System.Collections.Generic;

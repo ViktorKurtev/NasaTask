@@ -1,33 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using Nasa.Services.Contracts;
 using Nasa.Web.Models;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Nasa.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly INasaService nasaService;
+        private const string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        private const string FileName = "AsteroidData.xlsx";
 
-        public HomeController(ILogger<HomeController> logger, INasaService nasaService)
+        private readonly INasaService nasaService;
+        private readonly IExcelConverter excelConverter;
+
+        public HomeController(INasaService nasaService, IExcelConverter excelConverter)
         {
-            _logger = logger;
             this.nasaService = nasaService;
+            this.excelConverter = excelConverter;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> DownloadFile()
         {
-            var asteroids = await nasaService.GetAsteroidDataAsync(1, 20);
+            var asteroids = await nasaService.GetAsteroidDataAsync(511, 20);
 
-            return new JsonResult(asteroids);
+            var sheets = excelConverter.CreateSpreadsheets(asteroids);
 
-            //return View(asteroids);
+            var excelPackage = excelConverter.CreateExcelPackage(sheets);
+
+            var file = await excelPackage.GetAsByteArrayAsync();
+
+            return File(file, ContentType, FileName);
+        }
+
+        public IActionResult Index()
+        {
+            return View();
         }
 
         public IActionResult Privacy()

@@ -1,6 +1,6 @@
 ﻿using Nasa.Data.Models.Orbital;
 
-namespace Nasa.Data.Models.Contracts
+namespace Nasa.Data.Contracts.Asteroid
 {
     public interface IOrbitalDataContainer
     {
