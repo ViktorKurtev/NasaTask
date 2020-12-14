@@ -61,13 +61,13 @@ namespace Nasa.Services.Extensions
 
                 if (i == indices.Count - 1)
                 {
-                    if (currentIndex == input.Length - 1)
+                    if (currentIndex != input.Length -1 || !splitCondition(input[currentIndex]))
                     {
-                        returnArray[i + 1] = "";
+                        returnArray[i + 1] = input.Substring(currentIndex);
                     }
                     else
                     {
-                        returnArray[i + 1] = input.Substring(currentIndex);
+                        returnArray[i + 1] = "";
                     }
                 }
             }

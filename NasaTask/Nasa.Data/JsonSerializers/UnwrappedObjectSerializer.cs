@@ -59,9 +59,9 @@ namespace Nasa.Data.JsonSerializers
                 {
                     if (token is JObject)
                     {
-                        foreach (var arrayElement in (token as JObject).Children())
+                        foreach (var tokenChild in (token as JObject).Children())
                         {
-                            RecursivelyFlattenProperties(writer, arrayElement as JProperty, nestingLevel + 1);
+                            RecursivelyFlattenProperties(writer, tokenChild as JProperty, nestingLevel + 1);
                         }
                     }
                     else
