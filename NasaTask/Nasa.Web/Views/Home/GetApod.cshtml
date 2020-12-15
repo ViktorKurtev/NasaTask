@@ -1,0 +1,33 @@
+﻿@model AstronomyPictureOfTheDay
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Date" class="control-label"></label>
+        <input asp-for="Date" id="datepicker" class="form-control" />
+        <span asp-validation-for="Date" class="text-danger"></span>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+</form>
+
+<img src="@Model.Url" />
+
+<p>
+    @Model.Title
+</p>
+
+<p>
+    @Model.Explanation
+</p>
+
+@section Scripts
+{
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script>
+        $(function () {
+            $('#datepicker').val('@Model.Date.ToString("yyyy-MM-ddThh:mm")');
+        });
+    </script>
+
+    <partial name="_ValidationScriptsPartial" />
+}

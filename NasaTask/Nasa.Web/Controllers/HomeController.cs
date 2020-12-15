@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Nasa.Data.Models.PictureOfTheDay;
 using Nasa.Services.Contracts;
 using Nasa.Web.Models;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -31,6 +33,35 @@ namespace Nasa.Web.Controllers
             var file = await excelPackage.GetAsByteArrayAsync();
 
             return File(file, ContentType, FileName);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetApod(DateTime date)
+        {
+            date = date == DateTime.MinValue ? DateTime.Now : date;
+
+            var apod = await nasaService.GetAstronomyPictureOfTheDay(date);
+
+            if (apod == null)
+            {
+                return View("Error", new ErrorViewModel
+                {
+                    ErrorMessage = "No data found for this date."
+                });
+            }
+
+            return View(apod);
+        }
+
+        [HttpPost]
+        public IActionResult GetApod(AstronomyPictureOfTheDay model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            return RedirectToAction("GetApod", new { date = model.Date });
         }
 
         public IActionResult Index()

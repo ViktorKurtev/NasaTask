@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Nasa.Data.Models.Asteroid;
+using Nasa.Data.Models.PictureOfTheDay;
 using Nasa.Services.Contracts;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -15,6 +18,7 @@ namespace Nasa.Services.Services
     public class NasaService : INasaService
     {
         private const string NasaBrowseUrl = "http://www.neowsapp.com/rest/v1/neo/browse?page={0}&size={1}&api_key={2}";
+        private const string NasaApodUrl = "https://api.nasa.gov/planetary/apod?date={0}&api_key={1}";
         private readonly string apiKey;
         private readonly IHttpClientFactory httpClientFactory;
 
@@ -33,6 +37,24 @@ namespace Nasa.Services.Services
             var jsonResponse = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<AsteroidCollection>(jsonResponse).Asteroids;
+        }
+
+        public async Task<AstronomyPictureOfTheDay> GetAstronomyPictureOfTheDay(DateTime date)
+        {
+            var formattedTime = date.ToString("yyyy/M/d");
+
+            var client = httpClientFactory.CreateClient();
+
+            var response = await client.GetAsync(string.Format(NasaApodUrl, formattedTime, apiKey));
+
+            if (response.StatusCode == HttpStatusCode.NotFound) 
+            {
+                return null;
+            }
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<AstronomyPictureOfTheDay>(jsonResponse);
         }
     }
 }

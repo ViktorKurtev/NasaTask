@@ -1,4 +1,6 @@
 ﻿using Nasa.Data.Models.Asteroid;
+using Nasa.Data.Models.PictureOfTheDay;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,5 +15,6 @@ namespace Nasa.Services.Contracts
         /// <param name="pageSize">Page Size - between 1 and 20.</param>
         /// <returns></returns>
         Task<IEnumerable<AsteroidData>> GetAsteroidDataAsync(int page, int pageSize);
+        Task<AstronomyPictureOfTheDay> GetAstronomyPictureOfTheDay(DateTime date);
     }
 }
