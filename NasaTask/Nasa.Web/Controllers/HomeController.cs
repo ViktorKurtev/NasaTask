@@ -1,9 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Nasa.Data.JsonSerializers;
+using Nasa.Data.Models.Asteroid;
+using Nasa.Data.Models.CloseApproach;
 using Nasa.Data.Models.PictureOfTheDay;
+using Nasa.Data.Models.ViewModels;
 using Nasa.Services.Contracts;
 using Nasa.Web.Models;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Nasa.Web.Controllers
@@ -15,16 +24,31 @@ namespace Nasa.Web.Controllers
 
         private readonly INasaService nasaService;
         private readonly IExcelConverter excelConverter;
+        private readonly IMapper mapper;
 
-        public HomeController(INasaService nasaService, IExcelConverter excelConverter)
+        public HomeController(INasaService nasaService, IExcelConverter excelConverter, IMapper mapper)
         {
             this.nasaService = nasaService;
             this.excelConverter = excelConverter;
+            this.mapper = mapper;
+        }
+
+        public async Task<IActionResult> GetAsteroidDetails(string asteroidId)
+        {
+            var asteroid = await nasaService.GetAsteroidDataAsync(asteroidId);
+
+            var serializedJson = JsonConvert.SerializeObject(asteroid.CloseApproachData, new UnwrappedObjectSerializer(true));
+
+            //return Content(serializedJson);
+
+            var dict = JsonConvert.DeserializeObject<DataTable>(serializedJson);
+
+            return View("AsteroidDetails", dict);
         }
 
         public async Task<IActionResult> DownloadFile()
         {
-            var asteroids = await nasaService.GetAsteroidDataAsync(511, 20);
+            var asteroids = await nasaService.GetAsteroidDataCollectionAsync(511, 20);
 
             var sheets = excelConverter.CreateSpreadsheets(asteroids);
 
@@ -64,9 +88,13 @@ namespace Nasa.Web.Controllers
             return RedirectToAction("GetApod", new { date = model.Date });
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var asteroids = await nasaService.GetAsteroidDataCollectionAsync(1, 20);
+
+            var viewModels = asteroids.Select(a => mapper.Map<AsteroidViewModel>(a));
+
+            return View("AsteroidList", viewModels);
         }
 
         public IActionResult Privacy()

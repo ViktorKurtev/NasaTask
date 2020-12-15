@@ -18,6 +18,7 @@ namespace Nasa.Services.Services
     public class NasaService : INasaService
     {
         private const string NasaBrowseUrl = "http://www.neowsapp.com/rest/v1/neo/browse?page={0}&size={1}&api_key={2}";
+        private const string NasaLookupUrl = "https://api.nasa.gov/neo/rest/v1/neo/{0}?api_key={1}";
         private const string NasaApodUrl = "https://api.nasa.gov/planetary/apod?date={0}&api_key={1}";
         private readonly string apiKey;
         private readonly IHttpClientFactory httpClientFactory;
@@ -28,7 +29,18 @@ namespace Nasa.Services.Services
             this.httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IEnumerable<AsteroidData>> GetAsteroidDataAsync(int page, int pageSize)
+        public async Task<AsteroidData> GetAsteroidDataAsync(string asteroidId)
+        {
+            var client = httpClientFactory.CreateClient();
+
+            var response = await client.GetAsync(string.Format(NasaLookupUrl, asteroidId, apiKey));
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<AsteroidData>(jsonResponse);
+        }
+
+        public async Task<IEnumerable<AsteroidData>> GetAsteroidDataCollectionAsync(int page, int pageSize)
         {
             var client = httpClientFactory.CreateClient();
 
@@ -47,7 +59,7 @@ namespace Nasa.Services.Services
 
             var response = await client.GetAsync(string.Format(NasaApodUrl, formattedTime, apiKey));
 
-            if (response.StatusCode == HttpStatusCode.NotFound) 
+            if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
             }
