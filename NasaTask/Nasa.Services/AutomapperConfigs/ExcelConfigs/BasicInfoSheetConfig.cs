@@ -16,7 +16,7 @@ namespace Nasa.Services.AutomapperConfigs.ExcelConfigs
             CreateMap<AsteroidData, BasicInfoRow>();
 
             CreateMap<IEnumerable<BasicInfoRow>, BasicInfoSpreadsheet>()
-                .ForMember(a => a.BasicInfoRows, b => b.MapFrom(c => c));
+                .ForMember(a => a.SerializationData, b => b.MapFrom(c => c));
         }
     }
 }

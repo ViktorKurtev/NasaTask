@@ -16,7 +16,7 @@ namespace Nasa.Services.AutomapperConfigs.ExcelConfigs
             CreateMap<AsteroidData, OrbitalDataInfoRow>();
 
             CreateMap<IEnumerable<OrbitalDataInfoRow>, OrbitalDataInfoSpreadsheet>()
-                .ForMember(a => a.OrbitalDataInfoRows, b => b.MapFrom(c => c));
+                .ForMember(a => a.SerializationData, b => b.MapFrom(c => c));
         }
     }
 }

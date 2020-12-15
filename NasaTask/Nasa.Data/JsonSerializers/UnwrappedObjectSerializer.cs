@@ -8,18 +8,13 @@ namespace Nasa.Data.JsonSerializers
     public class UnwrappedObjectSerializer : JsonConverter
     {
         private readonly bool shouldAppendParentName;
-        private readonly Type[] types;
 
-        public UnwrappedObjectSerializer(bool shouldAppendParentName, params Type[] types)
+        public UnwrappedObjectSerializer(bool shouldAppendParentName)
         {
             this.shouldAppendParentName = shouldAppendParentName;
-            this.types = types;
         }
 
-        public override bool CanConvert(Type objectType)
-        {
-            return types.Any(t => t == objectType);
-        }
+        public override bool CanConvert(Type objectType) => true;
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -34,7 +29,14 @@ namespace Nasa.Data.JsonSerializers
 
             if (t.Type != JTokenType.Object)
             {
-                t.WriteTo(writer);
+                writer.WriteStartArray();
+
+                foreach (var child in t)
+                {
+                    WriteJson(writer, child, serializer);
+                }
+
+                writer.WriteEndArray();
             }
             else
             {

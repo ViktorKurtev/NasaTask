@@ -13,7 +13,7 @@ namespace Nasa.Services.AutomapperConfigs.ExcelConfigs
             CreateMap<AsteroidData, CloseApproachInfoSubTable>();
 
             CreateMap<IEnumerable<CloseApproachInfoSubTable>, CloseApproachInfoSpreadsheet>()
-                .ForMember(a => a.CloseApproachInfoSubTables, b => b.MapFrom(c => c));
+                .ForMember(a => a.SerializationData, b => b.MapFrom(c => c));
         }
     }
 }
