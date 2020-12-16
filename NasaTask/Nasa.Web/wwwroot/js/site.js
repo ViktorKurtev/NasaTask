@@ -1,4 +1,19 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(function () {
+    console.log("Called");
 
-// Write your JavaScript code.
+    $('.table-data').each(function () {
+        var tableId = $(this).data('tableid');
+        var moreId = $(this).data('moreid');
+        var lessId = $(this).data('lessid');
+
+        $(`#${tableId}`).on('show.bs.collapse', function () {
+            $(`#${moreId}`).hide();
+            $(`#${lessId}`).show();
+        });
+
+        $(`#${tableId}`).on('hide.bs.collapse', function () {
+            $(`#${moreId}`).show();
+            $(`#${lessId}`).hide();
+        });
+    });
+});

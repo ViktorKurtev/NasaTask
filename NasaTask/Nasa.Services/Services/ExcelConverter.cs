@@ -41,10 +41,10 @@ namespace Nasa.Services.Services
         public IEnumerable<IExcelConvertible> CreateSpreadsheets(IEnumerable<AsteroidData> asteroidData)
         {
             var basicDataSpreadsheet = mapper.Map<BasicInfoSpreadsheet>(asteroidData.Select(a => mapper.Map<BasicInfoRow>(a)));
-            var closeApproachSpreadsheet = mapper.Map<CloseApproachInfoSpreadsheet>(asteroidData.Select(a => mapper.Map<CloseApproachInfoSubTable>(a)));
             var orbitalDataSpreadsheet = mapper.Map<OrbitalDataInfoSpreadsheet>(asteroidData.Select(a => mapper.Map<OrbitalDataInfoRow>(a)));
+            var closeApproachSpreadsheet = mapper.Map<CloseApproachInfoSpreadsheet>(asteroidData.Select(a => mapper.Map<CloseApproachInfoSubTable>(a)));
 
-            return new IExcelConvertible[] { basicDataSpreadsheet, closeApproachSpreadsheet, orbitalDataSpreadsheet };
+            return new IExcelConvertible[] { basicDataSpreadsheet, orbitalDataSpreadsheet, closeApproachSpreadsheet };
         }
     }
 }

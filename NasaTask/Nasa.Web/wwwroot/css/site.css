@@ -89,7 +89,7 @@ body {
 
         .panel-table .panel-body .table-bordered > thead > tr > th:first-of-type {
             text-align: center;
-            width: 100px;
+            width: 200px;
         }
 
         .panel-table .panel-body .table-bordered > thead > tr > th:last-of-type,
@@ -122,4 +122,16 @@ body {
 
 .panel-table .panel-body .table-bordered > tbody > tr > td {
     line-height: 34px;
+}
+
+.apod-element-size {
+    height: 70vh;
+    width: auto;
+}
+
+th {
+    background: white;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
 }

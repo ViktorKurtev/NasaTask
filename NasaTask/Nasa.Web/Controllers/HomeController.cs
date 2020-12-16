@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Nasa.Data.Extensions;
 using Nasa.Data.JsonSerializers;
 using Nasa.Data.Models.Asteroid;
 using Nasa.Data.Models.CloseApproach;
@@ -39,11 +40,11 @@ namespace Nasa.Web.Controllers
 
             var serializedJson = JsonConvert.SerializeObject(asteroid.CloseApproachData, new UnwrappedObjectSerializer(true));
 
-            //return Content(serializedJson);
+            var spreadsheets = excelConverter.CreateSpreadsheets(new[] { asteroid });
 
-            var dict = JsonConvert.DeserializeObject<DataTable>(serializedJson);
+            var dataTables = spreadsheets.Select(a => mapper.Map<TableViewModel>(a));
 
-            return View("AsteroidDetails", dict);
+            return View("AsteroidDetails", dataTables);
         }
 
         public async Task<IActionResult> DownloadFile()

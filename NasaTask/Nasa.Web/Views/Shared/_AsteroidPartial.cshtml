@@ -1,9 +1,0 @@
-﻿@model AsteroidViewModel
-
-<tr>
-    <td><a asp-controller="Home" asp-action="GetAsteroidDetails" asp-route-asteroidid="@Model.Id">@Model.Id</a></td>
-    <td>@Model.Name</td>
-    <td><a href="@Model.NasaJplUrl">@Model.NasaJplUrl</a></td>
-    <td>@Model.IsPotentiallyHazardousAsteroid</td>
-    <td>@Model.CloseApproachCount</td>
-</tr>

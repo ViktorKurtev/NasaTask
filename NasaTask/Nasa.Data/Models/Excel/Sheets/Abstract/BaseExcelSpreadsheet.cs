@@ -1,4 +1,5 @@
-﻿using Nasa.Data.Extensions;
+﻿using Nasa.Data.Contracts.Spreadsheets;
+using Nasa.Data.Extensions;
 using Nasa.Data.JsonSerializers;
 using Newtonsoft.Json;
 using OfficeOpenXml;
@@ -9,9 +10,9 @@ using System.Linq;
 
 namespace Nasa.Data.Models.Excel.Sheets.Abstract
 {
-    public abstract class BaseExcelSpreadsheet
+    public abstract class BaseExcelSpreadsheet : IExcelConvertible
     {
-        protected virtual string SpreadsheetName { get; } = "DefaultSpreadsheetName";
+        public virtual string SpreadsheetName { get; } = "DefaultSpreadsheetName";
         public abstract IEnumerable<object> SerializationData { get; set; }
         protected virtual bool AppendParentNamesOnSerialize { get; }
 
@@ -19,13 +20,13 @@ namespace Nasa.Data.Models.Excel.Sheets.Abstract
         {
             var spreadSheet = excelWorksheets.Add(SpreadsheetName);
 
-            var dataTable = ConvertToDataTable().First();
+            var dataTable = ConvertToDataTables().First();
 
             foreach (var column in dataTable.Columns)
             {
                 var columnName = column.ToString();
                 var friendlyName = column.ToString()
-                                .ToFriendlyString(" ", a => a == '_', b => b.CapitalizeFirstLetter());
+                                .ToFriendlyString(" ", a => a == '_', b => b.CapitalizeFirstLetter(), true);
 
                 dataTable.Columns[column.ToString()].ColumnName = friendlyName;
             }
@@ -37,7 +38,7 @@ namespace Nasa.Data.Models.Excel.Sheets.Abstract
             return spreadSheet;
         }
 
-        protected virtual IEnumerable<DataTable> ConvertToDataTable()
+        public virtual IEnumerable<DataTable> ConvertToDataTables()
         {
             var jsonSerializer = new UnwrappedObjectSerializer(AppendParentNamesOnSerialize);
 

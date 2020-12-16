@@ -1,0 +1,55 @@
+﻿@model TableViewModel
+
+@{
+    var tableId = $"prefix-{Guid.NewGuid().ToString()}";
+    var moreId = $"{tableId}-more";
+    var lessId = $"{tableId}-less";
+}
+
+<span class="table-data" data-tableid="@tableId" data-moreid="@moreId" data-lessid="@lessId"></span>
+
+<div style="padding-left: 30px; padding-right: 30px;">
+    <div class="row">
+        <div class="col-md-12 col-md-offset-1">
+            <div class="panel panel-default panel-table">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col col-xs-6">
+                            <a class="btn" data-toggle="collapse" href="#@tableId">
+                                <div class="row" style="display: flex; justify-content: center; align-items: center;">
+                                    <h4 class="panel-title">@Model.TableName</h4>
+                                    <i id="@moreId" class="material-icons text-center">expand_more</i>
+                                    <i id="@lessId" class="material-icons text-center" style="display: none;">expand_less</i>
+                                </div>
+                            </a>
+                            <hr />
+                        </div>
+                    </div>
+                </div>
+                <div id="@tableId" class="panel-body collapse">
+                    <table class="table table-striped table-bordered table-list">
+                        <thead>
+                            <tr style="font-size: 12px;">
+                                @foreach (DataColumn col in Model.DataTable.Columns)
+                                {
+                                    <th>@col.ColumnName</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DataRow row in Model.DataTable.Rows)
+                            {
+                                <tr style="font-size: 12px;">
+                                    @foreach (var rowValue in row.ItemArray)
+                                    {
+                                        <td>@rowValue</td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

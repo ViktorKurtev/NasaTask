@@ -13,10 +13,10 @@ using System.Text;
 
 namespace Nasa.Data.Models.Excel.Sheets
 {
-    public class BasicInfoSpreadsheet : BaseExcelSpreadsheet, IExcelConvertible
+    public class BasicInfoSpreadsheet : BaseExcelSpreadsheet
     {
         public override IEnumerable<object> SerializationData { get; set; }
-        protected override string SpreadsheetName => "Basic Info";
+        public override string SpreadsheetName => "Basic Data";
         protected override bool AppendParentNamesOnSerialize => true;
     }
 }

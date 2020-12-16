@@ -13,10 +13,10 @@ using System.Text;
 
 namespace Nasa.Data.Models.Excel.Sheets
 {
-    public class OrbitalDataInfoSpreadsheet : BaseExcelSpreadsheet, IExcelConvertible
+    public class OrbitalDataInfoSpreadsheet : BaseExcelSpreadsheet
     {
         public override IEnumerable<object> SerializationData { get; set; }
-        protected override string SpreadsheetName => "Orbital Data";
+        public override string SpreadsheetName => "Orbital Data";
         protected override bool AppendParentNamesOnSerialize => false;
     }
 }

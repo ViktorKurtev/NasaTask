@@ -10,7 +10,18 @@
     </div>
 </form>
 
-<img src="@Model.Url" />
+@if (Model.Url.Contains("youtube.com") || Model.Url.Contains("vimeo.com"))
+{
+    <div class="embed-responsive apod-element-size">
+        <iframe class="embed-responsive-item" src="@Model.Url" allowfullscreen></iframe>
+    </div>
+}
+else
+{
+    <img class="apod-element-size" src="@Model.Url" />
+    
+    <a href="@Model.HdUrl" target="_blank" rel="noopener noreferrer">Open Hd Version</a>
+}
 
 <p>
     @Model.Title
@@ -22,7 +33,6 @@
 
 @section Scripts
 {
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script>
         $(function () {
             $('#datepicker').val('@Model.Date.ToString("yyyy-MM-ddThh:mm")');

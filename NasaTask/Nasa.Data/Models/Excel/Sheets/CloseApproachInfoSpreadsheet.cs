@@ -15,10 +15,10 @@ using System.Text;
 
 namespace Nasa.Data.Models.Excel.Sheets
 {
-    public class CloseApproachInfoSpreadsheet : BaseExcelSpreadsheet, IExcelConvertible
+    public class CloseApproachInfoSpreadsheet : BaseExcelSpreadsheet
     {
         public override IEnumerable<object> SerializationData { get; set; }
-        protected override string SpreadsheetName => "Close Approach Data";
+        public override string SpreadsheetName => "Close Approach Data";
 
         public override ExcelWorksheet AddAsExcelSheet(ExcelWorksheets excelWorksheets, TableStyles tableStyle, string headerStyle)
         {
@@ -26,7 +26,7 @@ namespace Nasa.Data.Models.Excel.Sheets
 
             var currentRow = 1;
 
-            var allDataTables = ConvertToDataTable();
+            var allDataTables = ConvertToDataTables();
 
             var subTableCollection = SerializationData.Select(a => (CloseApproachInfoSubTable)a).ToList();
 
@@ -38,7 +38,7 @@ namespace Nasa.Data.Models.Excel.Sheets
                 {
                     var columnName = column.ToString();
                     var friendlyName = column.ToString()
-                                    .ToFriendlyString(" ", a => a == '_', b => b.CapitalizeFirstLetter());
+                                    .ToFriendlyString(" ", a => a == '_', b => b.CapitalizeFirstLetter(),true);
 
                     dataTable.Columns[column.ToString()].ColumnName = friendlyName;
                 }
@@ -58,7 +58,7 @@ namespace Nasa.Data.Models.Excel.Sheets
             return spreadSheet;
         }
 
-        protected override IEnumerable<DataTable> ConvertToDataTable()
+        public override IEnumerable<DataTable> ConvertToDataTables()
         {
             var objectToConvert = SerializationData.Select(a => (CloseApproachInfoSubTable)a);
 

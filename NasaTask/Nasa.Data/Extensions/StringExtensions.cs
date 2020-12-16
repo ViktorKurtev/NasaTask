@@ -16,12 +16,14 @@ namespace Nasa.Data.Extensions
         /// <param name="joinSeparator">The join separator used in the string.Join</param>
         /// <param name="splitDelegate">The delegate used to split the string based on</param>
         /// <param name="modifyDelegate">The delegate used to modify each split string</param>
+        /// <param name="removeSplitCharacters">Should the split characters be removed or kept in the string.</param>
         /// <returns>The modified string</returns>
-        public static string ToFriendlyString(this string stringToChange, string joinSeparator, Func<char, bool> splitDelegate, Func<string, string> modifyDelegate)
+        public static string ToFriendlyString(this string stringToChange, string joinSeparator, Func<char, bool> splitDelegate
+            , Func<string, string> modifyDelegate, bool removeSplitCharacters)
         {
-            var splitString = stringToChange.SplitWithCondition(splitDelegate);
+            var splitString = stringToChange.SplitWithCondition(splitDelegate, removeSplitCharacters);
 
-            return string.Join(joinSeparator, splitString.Select(a => modifyDelegate(a)));
+            return string.Join(joinSeparator, splitString.Select(a => modifyDelegate(a))).Trim();
         }
 
         /// <summary>
@@ -29,8 +31,9 @@ namespace Nasa.Data.Extensions
         /// </summary>
         /// <param name="input">String to split</param>
         /// <param name="splitCondition">The condition to evaluate each char against.</param>
+        /// <param name="removeSplitCharacters">Should the split characters be removed or kept in the string.</param>
         /// <returns>An array of the split string.</returns>
-        public static string[] SplitWithCondition(this string input, Func<char, bool> splitCondition)
+        public static string[] SplitWithCondition(this string input, Func<char, bool> splitCondition, bool removeSplitCharacters)
         {
             List<int> indices = new List<int>();
 
@@ -55,13 +58,18 @@ namespace Nasa.Data.Extensions
             {
                 var stringLength = i > 0 ? indices[i] - indices[i - 1] - 1 : indices[i];
 
-                returnArray[i] = input.Substring(currentIndex, stringLength);
+                if (indices[i] != 0)
+                {
+                    stringLength += Convert.ToInt32(!removeSplitCharacters);
 
-                currentIndex = indices[i] + 1;
+                    returnArray[i] = input.Substring(currentIndex, stringLength);
+                }
+
+                currentIndex = indices[i] + Convert.ToInt32(removeSplitCharacters);
 
                 if (i == indices.Count - 1)
                 {
-                    if (currentIndex != input.Length -1 || !splitCondition(input[currentIndex]))
+                    if (currentIndex != input.Length - 1 || !splitCondition(input[currentIndex]))
                     {
                         returnArray[i + 1] = input.Substring(currentIndex);
                     }
