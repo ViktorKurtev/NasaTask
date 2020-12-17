@@ -1,5 +1,4 @@
 ﻿$(function () {
-    console.log("Called");
 
     $('.table-data').each(function () {
         var tableId = $(this).data('tableid');

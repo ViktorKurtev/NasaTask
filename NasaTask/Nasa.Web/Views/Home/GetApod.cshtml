@@ -1,35 +1,54 @@
 ﻿@model AstronomyPictureOfTheDay
 
-<form method="post">
-    <div class="form-group">
-        <label asp-for="Date" class="control-label"></label>
-        <input asp-for="Date" id="datepicker" class="form-control" />
-        <span asp-validation-for="Date" class="text-danger"></span>
+<div style="padding: 20px;">
+    <form method="post">
+        <div class="form-group row flex-v-center">
+            <div class="col-3">
+                <input asp-for="Date" id="datepicker" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
 
-        <button type="submit" class="btn btn-primary">Update</button>
+            <div class="col-3">
+                <button type="submit" class="btn btn-primary">Fetch</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="col-md-12 no-padding lib-item" data-category="ui">
+        <div class="lib-panel">
+            <div class="row box-shadow">
+                <div class="col-md-6">
+                    @if (Model.Url != null)
+                    {
+                        @if (Model.Url.Contains("youtube.com") || Model.Url.Contains("vimeo.com"))
+                        {
+                            <div class="embed-responsive lib-media-content">
+                                <iframe class="embed-responsive-item" src="@Model.Url" allowfullscreen></iframe>
+                            </div>
+                        }
+                        else
+                        {
+                            <img class="lib-media-content" src="@Model.Url" />
+
+                            <a class="lib-img-popout" href="@Model.HdUrl" target="_blank" rel="noopener noreferrer">
+                                <i class="material-icons lib-popout-icon">launch</i>
+                            </a>
+                        }
+                    }
+                </div>
+                <div class="col-md-6">
+                    <div class="lib-row lib-header">
+                        @Model.Title
+                        <div class="lib-header-seperator"></div>
+                    </div>
+                    <div class="lib-row lib-desc">
+                        @Model.Explanation
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</form>
-
-@if (Model.Url.Contains("youtube.com") || Model.Url.Contains("vimeo.com"))
-{
-    <div class="embed-responsive apod-element-size">
-        <iframe class="embed-responsive-item" src="@Model.Url" allowfullscreen></iframe>
-    </div>
-}
-else
-{
-    <img class="apod-element-size" src="@Model.Url" />
-    
-    <a href="@Model.HdUrl" target="_blank" rel="noopener noreferrer">Open Hd Version</a>
-}
-
-<p>
-    @Model.Title
-</p>
-
-<p>
-    @Model.Explanation
-</p>
+</div>
 
 @section Scripts
 {
