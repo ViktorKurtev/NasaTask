@@ -34,6 +34,11 @@ namespace Nasa.Services.Services
 
             var response = await client.GetAsync(string.Format(NasaLookupUrl, asteroidId, apiKey));
 
+            if (!response.IsSuccessStatusCode) 
+            {
+                return null;
+            }
+
             var jsonResponse = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<AsteroidData>(jsonResponse);
@@ -44,6 +49,11 @@ namespace Nasa.Services.Services
             var client = httpClientFactory.CreateClient();
 
             var response = await client.GetAsync(string.Format(NasaBrowseUrl, page, pageSize, apiKey));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
 
@@ -58,7 +68,7 @@ namespace Nasa.Services.Services
 
             var response = await client.GetAsync(string.Format(NasaApodUrl, formattedTime, apiKey));
 
-            if (response.StatusCode == HttpStatusCode.NotFound)
+            if (!response.IsSuccessStatusCode)
             {
                 return null;
             }

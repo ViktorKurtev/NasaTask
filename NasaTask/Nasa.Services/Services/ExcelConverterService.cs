@@ -27,6 +27,11 @@ namespace Nasa.Services.Services
 
         public ExcelPackage CreateExcelPackage(IEnumerable<IExcelConvertible> spreadsheets)
         {
+            if (spreadsheets == null)
+            {
+                return null;
+            }
+
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             ExcelPackage excelPackage = new ExcelPackage();
@@ -43,6 +48,11 @@ namespace Nasa.Services.Services
 
         public IEnumerable<IExcelConvertible> CreateSpreadsheets(IEnumerable<AsteroidData> asteroidData)
         {
+            if (asteroidData == null) 
+            {
+                return null;
+            }
+
             var basicDataSpreadsheet = mapper.Map<BasicDataSpreadsheet>(asteroidData.Select(a => mapper.Map<BasicInfoRow>(a)));
             var orbitalDataSpreadsheet = mapper.Map<OrbitalDataSpreadsheet>(asteroidData.Select(a => mapper.Map<OrbitalDataInfoRow>(a)));
             var closeApproachSpreadsheet = mapper.Map<CloseApproachSpreadsheet>(asteroidData.Select(a => mapper.Map<CloseApproachInfoSubTable>(a)));
