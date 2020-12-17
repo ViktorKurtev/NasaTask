@@ -17,10 +17,10 @@ namespace Nasa.Data.Models.Orbital
         public string LastObservationDate { get; set; }
 
         [JsonProperty("data_arc_in_days")]
-        public int DataArcInDays { get; set; }
+        public int? DataArcInDays { get; set; }
 
         [JsonProperty("observations_used")]
-        public int ObservationsUsed { get; set; }
+        public int? ObservationsUsed { get; set; }
 
         [JsonProperty("orbit_uncertainty")]
         public string OrbitUncertainty { get; set; }

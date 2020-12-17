@@ -9,7 +9,7 @@ namespace Nasa.Data.Models.ViewModels
         public string Id { get; set; }
         public string Name { get; set; }
         public string NasaJplUrl { get; set; }
-        public bool IsPotentiallyHazardousAsteroid { get; set; }
+        public bool? IsPotentiallyHazardousAsteroid { get; set; }
         public int CloseApproachCount { get; set; }
     }
 }

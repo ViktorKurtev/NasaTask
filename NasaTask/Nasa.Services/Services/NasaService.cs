@@ -40,7 +40,7 @@ namespace Nasa.Services.Services
             return JsonConvert.DeserializeObject<AsteroidData>(jsonResponse);
         }
 
-        public async Task<IEnumerable<AsteroidData>> GetAsteroidDataCollectionAsync(int page, int pageSize)
+        public async Task<AsteroidCollection> GetAsteroidDataCollectionAsync(int page, int pageSize)
         {
             var client = httpClientFactory.CreateClient();
 
@@ -48,7 +48,7 @@ namespace Nasa.Services.Services
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<AsteroidCollection>(jsonResponse).Asteroids;
+            return JsonConvert.DeserializeObject<AsteroidCollection>(jsonResponse);
         }
 
         public async Task<AstronomyPictureOfTheDay> GetAstronomyPictureOfTheDay(DateTime date)

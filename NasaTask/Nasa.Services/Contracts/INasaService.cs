@@ -14,7 +14,7 @@ namespace Nasa.Services.Contracts
         /// <param name="page">Page to get.</param>
         /// <param name="pageSize">Page Size - between 1 and 20.</param>
         /// <returns></returns>
-        Task<IEnumerable<AsteroidData>> GetAsteroidDataCollectionAsync(int page, int pageSize);
+        Task<AsteroidCollection> GetAsteroidDataCollectionAsync(int page, int pageSize);
         Task<AsteroidData> GetAsteroidDataAsync(string asteroidId);
         Task<AstronomyPictureOfTheDay> GetAstronomyPictureOfTheDay(DateTime date);
     }

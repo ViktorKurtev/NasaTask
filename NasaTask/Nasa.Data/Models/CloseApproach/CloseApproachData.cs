@@ -11,7 +11,7 @@ namespace Nasa.Data.Models.CloseApproach
         public string CloseApproachDateFull { get; set; }
 
         [JsonProperty("epoch_date_close_approach")]
-        public long EpochDateCloseApproach { get; set; }
+        public long? EpochDateCloseApproach { get; set; }
 
         [JsonProperty("relative_velocity")]
         public RelativeVelocity RelativeVelocity { get; set; }

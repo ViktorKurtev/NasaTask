@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AsteroidViewModel>
+﻿@model AsteroidPageViewModel
 
 <div style="padding-left: 30px; padding-right: 30px;">
     <div class="row">
@@ -23,7 +23,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var asteroid in Model)
+                            @foreach (var asteroid in Model.Asteroids)
                             {
                                 <tr style="font-size: 12px;">
                                     <td><a asp-controller="Home" asp-action="GetAsteroidDetails" asp-route-asteroidid="@asteroid.Id">@asteroid.Id</a></td>
@@ -37,31 +37,58 @@
                     </table>
 
                 </div>
-                @*<div class="panel-footer">
-                        <div class="row">
-                            <div class="col col-xs-4">
-                                Page @Model.PageNumber of @Model.PageCount
-                            </div>
-                            <div class="col col-md-8">
-                                <ul class="pagination hidden-xs pull-right">
-                                    @for (int i = 0; i < Model.PageCount; i++)
-                                    {
-                                        var buttonClass = Model.PageNumber == i + 1 ? "active-page" : "";
-                                        var linkClass = Model.PageNumber == i + 1 ? "active-link-class" : "inactive-link-class";
-                                        var num = i + 1;
 
-                                        <li class="@buttonClass @linkClass" style="display:inline-block;">
-                                            <a class="user-page-link" asp-controller="Administrator" asp-action="ControlPanel" asp-route-page="@num">
-                                                @num
-                                            </a>
-                                        </li>
-                                    }
-                                </ul>
+                @{
+                    var nextPage = Model.PageNumber + 1;
+                    var prevPage = Model.PageNumber - 1;
+
+                    var nextClass = nextPage > Model.PageCount ? "disabled" : "";
+                    var prevClass = prevPage < 1 ? "disabled" : "";
+                }
+
+                <form method="post">
+                    <ul class="pagination" style="padding-top: 10px;">
+                        <li class="page-item @prevClass">
+                            <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-pagenum="@prevPage">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+
+
+                        <li style="width: 90px;">
+                            <input asp-for="PageCount" style="display: none;" /> @*Just want to pass the value along.*@
+
+                            <input asp-for="PageNumber" class="form-control" />
+                            <span asp-validation-for="PageNumber" class="text-danger"></span>
+                        </li>
+
+                        <li class="page-item @nextClass">
+                            <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-pagenum="@nextPage">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                        <li style="margin-left: 5px; margin-right: 5px;">
+                            <div style="display: flex; align-items: center; text-align: center; justify-content:center; height: 100%;">
+                                <div>
+                                    of @Model.PageCount pages
+                                </div>
                             </div>
-                        </div>
-                    </div>*@
+                        </li>
+                        <li>
+                            <button type="submit" class="btn btn-outline-primary">Go</button>
+                        </li>
+
+                        <li style="margin-left: auto;">
+                            <a class="btn btn-outline-primary" asp-controller="Home" asp-action="DownloadFile" asp-route-pagenum="@Model.PageNumber">
+                                Download This Page
+                            </a>
+                        </li>
+                    </ul>
+                </form>
+
             </div>
-
         </div>
     </div>
 </div>

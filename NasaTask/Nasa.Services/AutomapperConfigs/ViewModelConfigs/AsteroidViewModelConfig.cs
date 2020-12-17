@@ -14,6 +14,11 @@ namespace Nasa.Services.AutomapperConfigs.ViewModelConfigs
         {
             CreateMap<AsteroidData, AsteroidViewModel>()
                 .ForMember(a => a.CloseApproachCount, b => b.MapFrom(c => c.CloseApproachData.Count()));
+
+            CreateMap<AsteroidCollection, AsteroidPageViewModel>()
+                .ForMember(a => a.Asteroids, b => b.MapFrom(c => c.Asteroids))
+                .ForMember(a => a.PageCount, b => b.MapFrom(c => c.PageData.PageCount))
+                .ForMember(a => a.PageNumber, b => b.MapFrom(c => c.PageData.PageNumber));
         }
     }
 }

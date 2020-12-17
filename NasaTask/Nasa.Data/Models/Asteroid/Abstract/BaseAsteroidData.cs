@@ -24,15 +24,15 @@ namespace Nasa.Data.Models.Asteroid.Abstract
         public string NasaJplUrl { get; set; }
 
         [JsonProperty("absolute_magnitude_h")]
-        public double AbsoluteMagnitudeH { get; set; }
+        public double? AbsoluteMagnitudeH { get; set; }
 
         [JsonProperty("estimated_diameter")]
         public EstimatedDiameter EstimatedDiameter { get; set; }
 
         [JsonProperty("is_potentially_hazardous_asteroid")]
-        public bool IsPotentiallyHazardousAsteroid { get; set; }
+        public bool? IsPotentiallyHazardousAsteroid { get; set; }
 
         [JsonProperty("is_sentry_object")]
-        public bool IsSentryObject { get; set; }
+        public bool? IsSentryObject { get; set; }
     }
 }

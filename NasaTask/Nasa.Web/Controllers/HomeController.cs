@@ -21,7 +21,9 @@ namespace Nasa.Web.Controllers
     public class HomeController : Controller
     {
         private const string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        private const string FileName = "AsteroidData.xlsx";
+        private const string FileName = "AsteroidDataPage{0}.xlsx";
+
+        private const int PageSize = 20;
 
         private readonly INasaService nasaService;
         private readonly IExcelConverter excelConverter;
@@ -47,17 +49,19 @@ namespace Nasa.Web.Controllers
             return View("AsteroidDetails", dataTables);
         }
 
-        public async Task<IActionResult> DownloadFile()
+        public async Task<IActionResult> DownloadFile(int pageNum)
         {
-            var asteroids = await nasaService.GetAsteroidDataCollectionAsync(511, 20);
+            //We subtract one since this page variable comes from the view which has the page count incremented
+            //by one so it displays properly.
+            var asteroids = await nasaService.GetAsteroidDataCollectionAsync(pageNum - 1, PageSize);
 
-            var sheets = excelConverter.CreateSpreadsheets(asteroids);
+            var sheets = excelConverter.CreateSpreadsheets(asteroids.Asteroids);
 
             var excelPackage = excelConverter.CreateExcelPackage(sheets);
 
             var file = await excelPackage.GetAsByteArrayAsync();
 
-            return File(file, ContentType, FileName);
+            return File(file, ContentType, string.Format(FileName, pageNum));
         }
 
         [HttpGet]
@@ -89,13 +93,24 @@ namespace Nasa.Web.Controllers
             return RedirectToAction("GetApod", new { date = model.Date });
         }
 
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(int pageNum = 1)
         {
-            var asteroids = await nasaService.GetAsteroidDataCollectionAsync(1, 20);
+            var asteroids = await nasaService.GetAsteroidDataCollectionAsync(pageNum - 1, PageSize);
 
-            var viewModels = asteroids.Select(a => mapper.Map<AsteroidViewModel>(a));
+            var viewModel = mapper.Map<AsteroidPageViewModel>(asteroids);
 
-            return View("AsteroidList", viewModels);
+            viewModel.PageNumber++;
+
+            return View("AsteroidList", viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Index(AsteroidPageViewModel model)
+        {
+            var page = Math.Clamp(model.PageNumber, 1, model.PageCount);
+
+            return RedirectToAction("Index", new { pageNum = page });
         }
 
         public IActionResult Privacy()
