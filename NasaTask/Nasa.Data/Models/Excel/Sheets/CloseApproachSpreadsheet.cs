@@ -1,21 +1,20 @@
-﻿using Nasa.Data.Contracts.Spreadsheets;
-using Nasa.Data.Extensions;
+﻿using Nasa.Data.Extensions;
 using Nasa.Data.JsonSerializers;
-using Nasa.Data.Models.CloseApproach;
 using Nasa.Data.Models.Excel.Sheets.Abstract;
 using Nasa.Data.Models.Excel.Tables;
 using Newtonsoft.Json;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 
 namespace Nasa.Data.Models.Excel.Sheets
 {
-    public class CloseApproachInfoSpreadsheet : BaseExcelSpreadsheet
+    /// <summary>
+    /// The spreadsheet containing the close approach data for a given asteroid collection.
+    /// </summary>
+    public class CloseApproachSpreadsheet : BaseExcelSpreadsheet
     {
         public override IEnumerable<object> SerializationData { get; set; }
         public override string SpreadsheetName => "Close Approach Data";
@@ -34,11 +33,16 @@ namespace Nasa.Data.Models.Excel.Sheets
 
             foreach (var dataTable in allDataTables)
             {
+                if (dataTable.Rows.Count == 0)
+                {
+                    continue;
+                }
+
                 foreach (var column in dataTable.Columns)
                 {
                     var columnName = column.ToString();
                     var friendlyName = column.ToString()
-                                    .ToFriendlyString(" ", a => a == '_', b => b.CapitalizeFirstLetter(),true);
+                                    .ToFriendlyString(" ", a => a == '_', b => b.CapitalizeFirstLetter(), true);
 
                     dataTable.Columns[column.ToString()].ColumnName = friendlyName;
                 }
@@ -53,6 +57,14 @@ namespace Nasa.Data.Models.Excel.Sheets
                 spreadSheet.Cells.AutoFitColumns();
 
                 counter++;
+            }
+
+            //No rows of close approach data were added and the spreadsheet is empty, no need to include it.
+            if (!spreadSheet.Cells.Any())
+            {
+                excelWorksheets.Delete(spreadSheet);
+
+                return null;
             }
 
             return spreadSheet;

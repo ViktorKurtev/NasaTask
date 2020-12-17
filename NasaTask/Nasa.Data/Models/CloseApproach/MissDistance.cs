@@ -2,6 +2,9 @@
 
 namespace Nasa.Data.Models.CloseApproach
 {
+    /// <summary>
+    /// Miss distance object used in a Close Approach Data object.
+    /// </summary>
     public class MissDistance
     {
         [JsonProperty("astronomical")]

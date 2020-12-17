@@ -2,6 +2,9 @@
 
 namespace Nasa.Data.Models.Diameter
 {
+    /// <summary>
+    /// Estimated Diameter in Feet.
+    /// </summary>
     public class Feet
     {
         [JsonProperty("estimated_diameter_min")]

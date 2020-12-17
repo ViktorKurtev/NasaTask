@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using Nasa.Data.Contracts.Spreadsheets;
 using Nasa.Data.Models.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Nasa.Services.AutomapperConfigs.ViewModelConfigs
 {

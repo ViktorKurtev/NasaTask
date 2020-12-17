@@ -2,6 +2,9 @@
 
 namespace Nasa.Data.Models.Diameter
 {
+    /// <summary>
+    /// Estimated Diameter object containing data used in the Base Asteroid Data class.
+    /// </summary>
     public class EstimatedDiameter
     {
         [JsonProperty("kilometers")]

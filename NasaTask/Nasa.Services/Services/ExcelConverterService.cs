@@ -12,12 +12,15 @@ using System.Linq;
 
 namespace Nasa.Services.Services
 {
-    public class ExcelConverter : IExcelConverter
+    /// <summary>
+    /// Excel converter service, responsible for creating the spreadsheets as well as the final excel package.
+    /// </summary>
+    public class ExcelConverterService : IExcelConverterService
     {
         private const string headerStyle = "HeaderStyle";
         private readonly IMapper mapper;
 
-        public ExcelConverter(IMapper mapper)
+        public ExcelConverterService(IMapper mapper)
         {
             this.mapper = mapper;
         }
@@ -40,9 +43,9 @@ namespace Nasa.Services.Services
 
         public IEnumerable<IExcelConvertible> CreateSpreadsheets(IEnumerable<AsteroidData> asteroidData)
         {
-            var basicDataSpreadsheet = mapper.Map<BasicInfoSpreadsheet>(asteroidData.Select(a => mapper.Map<BasicInfoRow>(a)));
-            var orbitalDataSpreadsheet = mapper.Map<OrbitalDataInfoSpreadsheet>(asteroidData.Select(a => mapper.Map<OrbitalDataInfoRow>(a)));
-            var closeApproachSpreadsheet = mapper.Map<CloseApproachInfoSpreadsheet>(asteroidData.Select(a => mapper.Map<CloseApproachInfoSubTable>(a)));
+            var basicDataSpreadsheet = mapper.Map<BasicDataSpreadsheet>(asteroidData.Select(a => mapper.Map<BasicInfoRow>(a)));
+            var orbitalDataSpreadsheet = mapper.Map<OrbitalDataSpreadsheet>(asteroidData.Select(a => mapper.Map<OrbitalDataInfoRow>(a)));
+            var closeApproachSpreadsheet = mapper.Map<CloseApproachSpreadsheet>(asteroidData.Select(a => mapper.Map<CloseApproachInfoSubTable>(a)));
 
             return new IExcelConvertible[] { basicDataSpreadsheet, orbitalDataSpreadsheet, closeApproachSpreadsheet };
         }

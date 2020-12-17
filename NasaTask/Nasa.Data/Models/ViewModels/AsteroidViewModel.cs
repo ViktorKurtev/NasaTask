@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Nasa.Data.Models.ViewModels
+﻿namespace Nasa.Data.Models.ViewModels
 {
+    /// <summary>
+    /// Asteroid View Model containing some of the more basic properties to display in a table before details for specific asteroid
+    /// are requested.
+    /// </summary>
     public class AsteroidViewModel
     {
         public string Id { get; set; }

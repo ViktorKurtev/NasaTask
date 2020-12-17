@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 namespace Nasa.Data.Models.Asteroid
 {
+    /// <summary>
+    /// Asteroid Data for a specific asteroid.
+    /// </summary>
     public class AsteroidData : BaseAsteroidData, ICloseApproachDataContainer, IOrbitalDataContainer
     {
         [JsonProperty("close_approach_data")]

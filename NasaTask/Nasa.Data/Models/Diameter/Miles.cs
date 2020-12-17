@@ -2,6 +2,9 @@
 
 namespace Nasa.Data.Models.Diameter
 {
+    /// <summary>
+    /// Estimated Diameter in Miles.
+    /// </summary>
     public class Miles
     {
         [JsonProperty("estimated_diameter_min")]

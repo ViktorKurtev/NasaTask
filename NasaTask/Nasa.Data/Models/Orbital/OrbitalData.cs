@@ -2,6 +2,9 @@
 
 namespace Nasa.Data.Models.Orbital
 {
+    /// <summary>
+    /// Class containing the Orbital Data from the Nasa Api for one specific asteroid.
+    /// </summary>
     public class OrbitalData
     {
         [JsonProperty("orbit_id")]

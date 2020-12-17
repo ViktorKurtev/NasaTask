@@ -3,7 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Nasa.Data.Attributes
 {
-    public class DateTimeRangeAttribute : ValidationAttribute
+    /// <summary>
+    /// Attribute used to limit the range of a Date Time variable to validate the range of valid dates for the Nasa 
+    /// astronomy picture of the day api.
+    /// </summary>
+    public class ValidApodDateAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {

@@ -2,6 +2,9 @@
 
 namespace Nasa.Data.Models.CloseApproach
 {
+    /// <summary>
+    /// Close Approach data object for a specific asteroid.
+    /// </summary>
     public class CloseApproachData
     {
         [JsonProperty("close_approach_date")]

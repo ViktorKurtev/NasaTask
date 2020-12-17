@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Nasa.Data.Models.PictureOfTheDay
 {
+    /// <summary>
+    /// Nasa Astronomy picture of the day model containing data from the api.
+    /// </summary>
     public class AstronomyPictureOfTheDay
     {
         [JsonProperty("title")]
@@ -21,7 +24,7 @@ namespace Nasa.Data.Models.PictureOfTheDay
 
         [JsonProperty("date")]
         [Required]
-        [DateTimeRange]
+        [ValidApodDate]
         public DateTime Date { get; set; }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
+﻿using System.Data;
 
 namespace Nasa.Data.Extensions
 {
@@ -9,10 +6,10 @@ namespace Nasa.Data.Extensions
     {
         /// <summary>
         /// Transposes a Data Table, changing the position of the rows and columns. For this to work the first column
-        /// needs to have unique values (Id, Name perhaps), otherwise an exception is thrown because the column name needs to be unique.
+        /// needs to have unique values (e.g. Id, Name), otherwise an exception is thrown because the column name needs to be unique.
         /// </summary>
-        /// <param name="dataTableToTranspose"></param>
-        /// <returns></returns>
+        /// <param name="dataTableToTranspose">Data table to transpose.</param>
+        /// <returns>The transposed data table.</returns>
         public static DataTable Transpose(this DataTable dataTableToTranspose)
         {
             DataTable newDataTable = new DataTable();

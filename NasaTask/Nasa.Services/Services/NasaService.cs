@@ -4,16 +4,14 @@ using Nasa.Data.Models.PictureOfTheDay;
 using Nasa.Services.Contracts;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Nasa.Services.Services
 {
     /// <summary>
-    /// Service designed to obtain data from the Nasa API.
+    /// Nasa Service responsible for communicating with the Nasa Api.
     /// </summary>
     public class NasaService : INasaService
     {
@@ -26,6 +24,7 @@ namespace Nasa.Services.Services
         public NasaService(IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
             apiKey = configuration.GetSection("APIKeys").GetSection("NASA").Value;
+            
             this.httpClientFactory = httpClientFactory;
         }
 
@@ -51,7 +50,7 @@ namespace Nasa.Services.Services
             return JsonConvert.DeserializeObject<AsteroidCollection>(jsonResponse);
         }
 
-        public async Task<AstronomyPictureOfTheDay> GetAstronomyPictureOfTheDay(DateTime date)
+        public async Task<AstronomyPictureOfTheDay> GetAstronomyPictureOfTheDayAsync(DateTime date)
         {
             var formattedTime = date.ToString("yyyy/M/d");
 

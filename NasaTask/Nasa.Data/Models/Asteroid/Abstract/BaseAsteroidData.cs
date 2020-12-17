@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace Nasa.Data.Models.Asteroid.Abstract
 {
+    /// <summary>
+    /// Base asteroid data class. Contains the most basic properties of an asteroid obtained from the Nasa Api.
+    /// </summary>
     public abstract class BaseAsteroidData
     {
         [JsonProperty("id")]
